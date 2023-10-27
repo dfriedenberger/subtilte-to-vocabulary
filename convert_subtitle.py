@@ -6,7 +6,7 @@ import polib
 from src.read_subtile import read_subtile
 from src.nlp_utils import get_sentences
 from src.language_processing import language_processing
-
+from src.po_utils import write_pot_file
 def parse_args():
 
     # Parse command line arguments
@@ -17,6 +17,7 @@ def parse_args():
                         help="subtitle input file in srt format")
     parser.add_argument("--language", required=True,
                         metavar="LANGUAGE",
+                        choices=['de', 'en', 'es'],
                         help="language of subtitle (de,en,es)")
     parser.add_argument("--encoding", nargs='?', default="UTF-8",
                         metavar="ENCODING",
@@ -46,21 +47,9 @@ with open(f"{output_folder}/phrases.json",mode='w',encoding="UTF-8") as f:
     json.dump(phrases,f,ensure_ascii=False,indent  = 4)
 
 # create po file
-po = polib.POFile()
-po.metadata = {
-    'Project-Id-Version': '1.0',
-    'Report-Msgid-Bugs-To': 'projekte@frittenburgerde',
-    'MIME-Version': '1.0',
-    'Content-Type': 'text/plain; charset=utf-8',
-    'Content-Transfer-Encoding': '8bit',
-}
-
+data = []
 for phrase in phrases:
-    entry = polib.POEntry(
-        msgid=phrase['text'],
-        msgstr="",
-        occurrences=[]
-    )
-    po.append(entry)
+    data.append(phrase['text'])
 
-po.save(f'{output_folder}/phrases.pot')
+write_pot_file(f'{output_folder}/phrases.pot',data)
+
