@@ -19,22 +19,29 @@ def language_processing(sentences,language):
 
         for _, token in enumerate(doc):
 
-            if token.is_stop: #ignore stop words
-                continue
+
+            is_vocabulary = True
+            if token.is_stop:
+                is_vocabulary = False
 
             if token.pos_ in ["PUNCT","NUM","SPACE"]: #ignore numbers and punctuation
-                continue
+                is_vocabulary = False
 
+            label = "NONE"
             if token.text in labeled_entities:
                 if labeled_entities[token.text] == "PER":
                     persons.append(token.text)
-                    continue
+                    is_vocabulary = False
+                label = labeled_entities[token.text]
 
             phrase['words'].append({
+                "is_vocabulary" : is_vocabulary,
+                "stop" : token.is_stop,
                 "lemma" : token.lemma_,
                 "text" : token.text,
                 "pos" : token.pos_,
-                "level" : level_detector.get_level(token.lemma_)
+                "level" : level_detector.get_level(token.lemma_),
+                "label" : label
             })
 
         phrases.append(phrase)

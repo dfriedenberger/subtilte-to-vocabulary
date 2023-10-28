@@ -1,5 +1,7 @@
 import json
 import argparse
+import os
+
 import yaml
 import polib
 
@@ -41,6 +43,17 @@ sentences = get_sentences(text,language)
 
 # language processing of sentences
 phrases = language_processing(sentences,language)
+
+# create metadata
+
+metadata = {
+    "title" : os.path.basename(output_folder.strip("/")),
+    "langauge": language,
+    "description" : "Dies ist die Beschreibung dieses Mediums. Sie können diese durch beliebige Inhalte ersetzen und nach Bedarf anpassen."
+}
+
+with open(f"{output_folder}/metadata.json",mode='w',encoding="UTF-8") as f:
+    json.dump(metadata,f,ensure_ascii=False,indent  = 4)
 
 # create json file
 with open(f"{output_folder}/phrases.json",mode='w',encoding="UTF-8") as f:

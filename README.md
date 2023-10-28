@@ -27,10 +27,11 @@ python translate_pot.py --input-file <pot-file> --input-language de|es|en --outp
 
 ### Example
 ```
-python convert_subtitle.py --input-file tmp/Ready.to.Mingle.2019.SPANISH.WEBRip.x264-VXT.srt --language es --output-folder tmp/ ```
+python convert_subtitle.py --input-file tmp/solteras/Ready.to.Mingle.2019.SPANISH.WEBRip.x264-VXT.srt --language es --output-folder tmp/solteras 
+```
 
 ```
-python translate_pot.py --input-file tmp/phrases.pot --input-language es --output-language de
+python translate_pot.py --input-file tmp/solteras/phrases.pot --input-language es --output-language de
 ```
 
 ## Contributing
